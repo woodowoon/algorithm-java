@@ -12,6 +12,14 @@ public class ScannerInput {
         return getInstance().nextLine();
     }
 
+    public static int nextInt() {
+        return scanner.nextInt();
+    }
+
+    public static boolean hasNextInt() {
+        return scanner.hasNextInt();
+    }
+
     public static void close() {
         if (scanner != null) {
             scanner.close();
