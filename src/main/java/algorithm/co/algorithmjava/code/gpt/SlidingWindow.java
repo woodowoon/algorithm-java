@@ -1,12 +1,9 @@
 package algorithm.co.algorithmjava.code.gpt;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 // 슬라이딩 윈도우 기법 학습
-public class FindConsecutiveSubarraySum {
+public class SlidingWindow {
 
     public static void input() {
         Scanner scanner = new Scanner(System.in);
@@ -164,6 +161,87 @@ public class FindConsecutiveSubarraySum {
         }
 
         System.out.println("maxAverage = " + maxAverage);
+    }
+
+    public static void inputFruit() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("과일의 종류 개수를 입력해주세요 : ");
+        int n = scanner.nextInt(); // 과일 종류의 개수
+
+        System.out.print("과일의 판매 기간을 알려주세요 : ");
+        int day = scanner.nextInt();
+
+        Map<String, List<Integer>> fruits = new HashMap<>();
+
+        scanner.nextLine(); // 숫자 입력 후 남은 개행 문자 제거
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("과일 이름을 입력해주세요 : ");
+            String name = scanner.nextLine(); // 과일 이름 입력
+
+            List<Integer> numbers = new ArrayList<>();
+            System.out.println(name + "의 판매 기록을 입력해주세요 (띄어쓰기로 구분) : ");
+            for (int j = 0; j < day; j++) {
+                numbers.add(scanner.nextInt()); // 판매 기록 입력
+            }
+
+            fruits.put(name, numbers); // 과일과 판매 기록을 맵에 저장
+
+            if (i < n - 1) {
+                scanner.nextLine(); // 숫자 입력 후 남은 개행 문자 제거 (다음 과일 이름 입력을 위해)
+            }
+        }
+
+        System.out.println("알고싶은 연속된 기간을 알려주세요. : ");
+        int newDay = scanner.nextInt();
+
+        findMaxSalesFruitOverPeriod(newDay, fruits);
+
+        scanner.close();
+
+    }
+
+    // 해당 방법은 최대 판매량이 같은 과일이 여러개일 경우를 처리하지 않았다.
+    private static void findMaxSalesFruitOverPeriod(Integer day, Map<String, List<Integer>> fruits) {
+        int resultSalesCount = 0;
+        int resultSaleDay = 0;
+        String resultFruitName = "디폴트";
+
+        for(String key : fruits.keySet()) {
+            int start = 0;
+            int currentSum = 0;
+
+            for (int end = 0; end < fruits.get(key).size(); end++) {
+                currentSum += fruits.get(key).get(end);
+
+                while (end - start + 1 == day) {
+                    if (resultSalesCount <= currentSum) {
+                        if (resultSalesCount == currentSum & resultFruitName.equals(key)) {
+                            resultSaleDay += 1;
+                        } else {
+                            resultFruitName = key;
+                            resultSalesCount = currentSum;
+                            resultSaleDay = 1;
+                        }
+                    }
+                    currentSum -= fruits.get(key).get(start);
+                    start++;
+                }
+            }
+        }
+
+        System.out.println("최대 판매량 : " + resultSalesCount);
+        System.out.println("최대 판매량 개수 : " + resultSaleDay);
+        System.out.println("최대 판매량 과일 : " + resultFruitName);
+
+    }
+
+    // 최대 판매량이 같은 과일이 여러개일 경우는
+    // 1. 최대 판매량을 달성한 일수를 봐서 일수가 가장 많은 과일이 1등이다.
+    // 2. 만약 일수조차 똑같다면 함께 출력한다.
+    private static void findMaxSalesFruitOverPeriod2() {
+
     }
 
 }
