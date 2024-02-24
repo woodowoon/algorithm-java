@@ -13,7 +13,7 @@ public class LIS {
             numbers.add(scanner.nextInt());
         }
 
-        findLongestIncreasingSubsequenceLength2(numbers);
+        findMaxNonIncreasingSubsequence2(numbers);
 
         scanner.close();
     }
@@ -133,5 +133,52 @@ public class LIS {
         System.out.println("list = " + list);
     }
 
+    private static void findMaxNonIncreasingSubsequence(List<Integer> numbers) {
+        List<Integer> newList = new ArrayList<>(Collections.nCopies(numbers.size(), 1));
+
+        for (int i = 0; i < numbers.size(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (numbers.get(i) < numbers.get(j) && newList.get(i) < newList.get(j) + 1) {
+                    newList.set(i, newList.get(j) + 1);
+                }
+            }
+        }
+
+        int lisLength = Collections.max(newList);
+
+        System.out.println("newList = " + newList);
+        System.out.println("lisLength = " + lisLength);
+    }
+
+    private static void findMaxNonIncreasingSubsequence2(List<Integer> numbers) {
+        List<Integer> newList = new ArrayList<>();
+
+        for (Integer number : numbers) {
+            if (newList.isEmpty() || number < newList.get(newList.size() - 1)) {
+                newList.add(number);
+            } else {
+                int i = 0;
+                int j = newList.size() - 1;
+
+                while (i < j) {
+                    int mid = (i + j) / 2;
+                    if (newList.get(mid) > number) {
+                        i = mid + 1;
+                    } else {
+                        j = mid;
+                    }
+                }
+
+                if (newList.get(i) > number) {
+                    newList.set(i + 1, number);
+                } else {
+                    newList.set(i, number);
+                }
+            }
+
+        }
+
+        System.out.println("newList = " + newList);
+    }
 
 }
