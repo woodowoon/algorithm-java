@@ -1,4 +1,4 @@
-package algorithm.co.algorithmjava.code.book;
+package algorithm.co.algorithmjava.code.baekJoon;
 
 import java.util.ArrayList;
 import java.util.List;
