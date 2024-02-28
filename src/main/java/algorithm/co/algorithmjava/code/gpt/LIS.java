@@ -181,4 +181,69 @@ public class LIS {
         System.out.println("newList = " + newList);
     }
 
+    public static void findSimpleLISLength() {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+
+        List<Integer> numbers = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            numbers.add(scanner.nextInt());
+        }
+
+        scanner.close();
+
+        List<Integer> dp = new ArrayList<>(Collections.nCopies(numbers.size(), 1));
+
+        for (int i = 0; i < numbers.size(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (numbers.get(i) > numbers.get(j) && dp.get(i) < dp.get(j) + 1) {
+                    dp.set(i, dp.get(j) + 1);
+                }
+            }
+        }
+
+        System.out.println(Collections.max(dp));
+    }
+
+    public static void findSimpleLISLength2() {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+
+        List<Integer> numbers = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            numbers.add(scanner.nextInt());
+        }
+
+        scanner.close();
+
+        List<Integer> newList = new ArrayList<>();
+
+        for (Integer number : numbers) {
+            if (newList.isEmpty() || number > newList.get(newList.size() - 1)) {
+                newList.add(number);
+            } else {
+                int i = 0;
+                int j = newList.size() - 1;
+
+                while (i < j) {
+                    int mid = (i + j) / 2;
+                    if (newList.get(mid) < number) {
+                        i = mid + 1;
+                    } else {
+                        j = mid;
+                    }
+                }
+
+                newList.set(i, number);
+
+            }
+        }
+
+        System.out.println("newList = " + newList.size());
+        System.out.println("newList = " + newList);
+    }
 }
