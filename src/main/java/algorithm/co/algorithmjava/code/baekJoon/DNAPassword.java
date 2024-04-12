@@ -137,4 +137,72 @@ public class DNAPassword {
 
         System.out.println(count);
     }
+
+    public static class DNAPassword2ndSolution {
+
+        public static void main(String[] args) {
+            input();
+        }
+
+        public static void input() {
+            Scanner scanner = new Scanner(System.in);
+
+            int S = scanner.nextInt();
+            int P = scanner.nextInt();
+            String s = scanner.next();
+
+            List<Character> characters = new ArrayList<>();
+            Map<Character, Integer> dna = new HashMap<>();
+
+            int ACount = scanner.nextInt();
+            int CCount = scanner.nextInt();
+            int GCount = scanner.nextInt();
+            int TCount = scanner.nextInt();
+
+            dna.put('A', ACount);
+            dna.put('C', CCount);
+            dna.put('G', GCount);
+            dna.put('T', TCount);
+
+            for (Character c : s.toCharArray()) {
+                characters.add(c);
+            }
+
+            scanner.close();
+
+            System.out.println(logic(characters, dna, P));
+        }
+
+        private static int logic(List<Character> characters, Map<Character, Integer> dna, int p) {
+            Map<Character, Integer> intoDna = new HashMap<>();
+            int start = 0;
+            int count = 0;
+            int ACount = dna.get('A');
+            int CCount = dna.get('C');
+            int GCount = dna.get('G');
+            int TCount = dna.get('T');
+
+            for (int end = 0; end < characters.size(); end++) {
+                Character character = characters.get(end);
+                intoDna.put(character, intoDna.getOrDefault(character, 0) + 1);
+
+                while (end - start + 1 == p) {
+                    if (intoDna.getOrDefault('A', 0) >= ACount && intoDna.getOrDefault('C', 0) >= CCount && intoDna.getOrDefault('G', 0) >= GCount && intoDna.getOrDefault('T', 0) >= TCount) {
+                        count++;
+                    }
+
+                    if (intoDna.get(characters.get(start)) == 1) {
+                        intoDna.remove(characters.get(start));
+                    } else {
+                        intoDna.put(characters.get(start), intoDna.get(characters.get(start)) - 1);
+                    }
+                    start++;
+                }
+            }
+
+            return count;
+        }
+
+    }
+
 }
