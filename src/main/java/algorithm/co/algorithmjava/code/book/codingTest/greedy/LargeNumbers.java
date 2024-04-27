@@ -1,4 +1,4 @@
-package algorithm.co.algorithmjava.code.book;
+package algorithm.co.algorithmjava.code.book.codingTest.greedy;
 
 import java.util.ArrayList;
 import java.util.Collections;
